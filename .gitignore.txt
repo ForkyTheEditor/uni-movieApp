@@ -1,6 +1,6 @@
-__pycache__/
-movieDatabase
-userDatabase
+__pycache__.*
+movieDatabase.*
+userDatabase.*
 venv
 env
 .pytest_cache

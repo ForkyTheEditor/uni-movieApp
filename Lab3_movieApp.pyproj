@@ -28,10 +28,14 @@
     <Compile Include="moviesManager.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="movieWindowsManager.py" />
     <Compile Include="testModule.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="userManager.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="userWindowsManager.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

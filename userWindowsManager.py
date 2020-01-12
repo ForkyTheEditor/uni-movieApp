@@ -4,10 +4,12 @@ from tkinter import messagebox
 
 class UserWindow():
 
-    def __init__(self, master, userList):
+    def __init__(self, master, userList, commonWindowObject):
 
         master.title("RipOff™ Movie Store: Users")
         master.geometry("450x450")
+
+        self.commonWindowObject = commonWindowObject
 
         self.userList = userList
         
@@ -38,29 +40,33 @@ class UserWindow():
         self.removeUserButton = tk.Button(self.buttonFrame, text = "Remove User", command = self.openRemoveUserWindow)
         self.removeUserButton.pack(side = tk.TOP, fill = tk.X)
 
+        
+
     def openAddUserWindow(self):
 
 
         top = tk.Toplevel()
-        addWindow = AddUserWindow(top, self.userList, self.list)
+        addWindow = AddUserWindow(top, self.userList, self.list, self.commonWindowObject)
 
     def openUpdateUserWindow(self):
 
         top = tk.Toplevel()
-        updateWindow = UpdateUserWindow(top, self.userList, self.list)
+        updateWindow = UpdateUserWindow(top, self.userList, self.list, self.commonWindowObject)
        
     def openRemoveUserWindow(self):
 
         top = tk.Toplevel()
-        removeWindow = RemoveUserWindow(top, self.userList, self.list)
+        removeWindow = RemoveUserWindow(top, self.userList, self.list, self.commonWindowObject)
 
 
 class AddUserWindow():
 
-    def __init__(self, master, userList, listbox):
+    def __init__(self, master, userList, listbox, commonWindowObject):
 
         master.title("RipOff™ Movie Store: Add User")
         self.master = master
+
+        self.commonWindowObject = commonWindowObject
 
         self.userList = userList
         self.listbox = listbox
@@ -113,15 +119,18 @@ class AddUserWindow():
 
         self.userList.append(newUser)
         self.listbox.insert(tk.END, str(newUser))
+        self.commonWindowObject.updateUserList()
         self.master.destroy()
 
 
 class UpdateUserWindow():
 
-    def __init__(self, master, userList, listbox):
+    def __init__(self, master, userList, listbox, commonWindowObject):
 
         master.title("RipOff™ Movie Store: Update User")
         self.master = master
+
+        self.commonWindowObject = commonWindowObject
 
         self.userList = userList
         self.listbox = listbox
@@ -209,17 +218,19 @@ class UpdateUserWindow():
         self.userList[userId] = newUser
         self.listbox.delete(userId)
         self.listbox.insert(userId, str(self.userList[userId]))
-
+        self.commonWindowObject.updateUserList()
 
         self.master.destroy()
 
 class RemoveUserWindow():
 
-    def __init__(self, master, userList, listbox):
+    def __init__(self, master, userList, listbox, commonWindowObject):
 
         self.listbox = listbox
         self.master = master
         self.userList = userList
+
+        self.commonWindowObject = commonWindowObject
 
         self.frame = tk.Frame(master, bd = 20)
         self.frame.pack(side = tk.TOP)
@@ -234,6 +245,7 @@ class RemoveUserWindow():
 
     def SubmitUser(self):
 
+
         try:
 
             indexToRemove = int(self.removeEntry.get())
@@ -244,6 +256,8 @@ class RemoveUserWindow():
 
         del self.userList[indexToRemove]
         self.listbox.delete(indexToRemove)
+        self.commonWindowObject.updateUserList()
+
         self.master.destroy()
 
 

@@ -24,12 +24,11 @@ class MovieStore:
         movieMaster = tk.Tk()
         movieWindow = MovieWindow(movieMaster, movieList)
 
-        userMaster = tk.Toplevel()
-        userWindow = UserWindow(userMaster, userList)
-
         commonMaster = tk.Toplevel()
         commonWindow = MiscWindow(commonMaster, movieList, userList)
         
+        userMaster = tk.Toplevel()
+        userWindow = UserWindow(userMaster, userList, commonWindow)
         
 
         shouldExit = False #Set to true to exit loop
@@ -93,6 +92,7 @@ class MovieStore:
         #Fill the user list Widget        
         for user in userList:
             userWindow.list.insert(tk.END, str(user))
+            commonWindow.list.insert(tk.END, str(user))
             
 
         movieMaster.mainloop()

@@ -221,7 +221,7 @@ class UpdateMovieWindow():
 
         except ValueError:
             messagebox.showerror("Value error", "Title not a string!")
-            
+            newTitle = self.movieList[movieId].title
 
         try:
             

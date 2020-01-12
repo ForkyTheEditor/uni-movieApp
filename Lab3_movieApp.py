@@ -3,6 +3,7 @@ import pickle
 import tkinter as tk
 from movieWindowsManager import MovieWindow  
 from userWindowsManager import UserWindow
+from miscWindowsManager import MiscWindow
 from userManager import User
 from userManager import UserManager
 from moviesManager import Movie
@@ -25,6 +26,10 @@ class MovieStore:
 
         userMaster = tk.Toplevel()
         userWindow = UserWindow(userMaster, userList)
+
+        commonMaster = tk.Toplevel()
+        commonWindow = MiscWindow(commonMaster, movieList, userList)
+        
         
 
         shouldExit = False #Set to true to exit loop
@@ -84,6 +89,10 @@ class MovieStore:
         #Fill the movie list Widget        
         for movie in movieList:
             movieWindow.list.insert(tk.END, str(movie))
+
+        #Fill the user list Widget        
+        for user in userList:
+            userWindow.list.insert(tk.END, str(user))
             
 
         movieMaster.mainloop()

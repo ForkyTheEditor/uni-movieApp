@@ -25,6 +25,9 @@
     <Compile Include="miscManager.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="miscWindowsManager.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="moviesManager.py">
       <SubType>Code</SubType>
     </Compile>

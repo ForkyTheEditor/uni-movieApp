@@ -1,5 +1,6 @@
 import tkinter as tk
 from userManager import User
+from tkinter import messagebox
 
 class UserWindow():
 
@@ -9,6 +10,7 @@ class UserWindow():
         master.geometry("450x450")
 
         self.userList = userList
+        
 
         self.frame = tk.Frame(master, bd = 20)
         self.frame.pack(side = tk.TOP, fill = tk.BOTH)
@@ -27,12 +29,222 @@ class UserWindow():
         self.buttonFrame = tk.Frame(master, bd = 20)
         self.buttonFrame.pack(side = tk.TOP)
 
-        self.addUserButton = tk.Button(self.buttonFrame, text = "Add User", command = self.printshit)
+        self.addUserButton = tk.Button(self.buttonFrame, text = "Add User", command = self.openAddUserWindow)
         self.addUserButton.pack(side = tk.TOP, fill = tk.X)
 
-        self.updateUserButton = tk.Button(self.buttonFrame, text = "Update User's last name", command = self.printshit)
+        self.updateUserButton = tk.Button(self.buttonFrame, text = "Update User", command = self.openUpdateUserWindow)
         self.updateUserButton.pack(side = tk.TOP, fill = tk.X)
 
-    def printshit(self):
+        self.removeUserButton = tk.Button(self.buttonFrame, text = "Remove User", command = self.openRemoveUserWindow)
+        self.removeUserButton.pack(side = tk.TOP, fill = tk.X)
 
-        print("shit")
+    def openAddUserWindow(self):
+
+
+        top = tk.Toplevel()
+        addWindow = AddUserWindow(top, self.userList, self.list)
+
+    def openUpdateUserWindow(self):
+
+        top = tk.Toplevel()
+        updateWindow = UpdateUserWindow(top, self.userList, self.list)
+       
+    def openRemoveUserWindow(self):
+
+        top = tk.Toplevel()
+        removeWindow = RemoveUserWindow(top, self.userList, self.list)
+
+
+class AddUserWindow():
+
+    def __init__(self, master, userList, listbox):
+
+        master.title("RipOff™ Movie Store: Add User")
+        self.master = master
+
+        self.userList = userList
+        self.listbox = listbox
+
+        self.frame = tk.Frame(master, bd = 20)
+        self.frame.pack(side = tk.TOP)
+
+        self.ordersFrame = tk.Frame(master)
+        self.ordersFrame.pack(side = tk.BOTTOM)
+
+        self.firstNameLabel = tk.Label(self.frame, text = "First name: ")
+        self.firstNameLabel.pack(side = tk.LEFT)
+        self.firstNameEntry = tk.Entry(self.frame)
+        self.firstNameEntry.pack(side = tk.LEFT)
+
+        self.lastNameLabel = tk.Label(self.frame, text = "Last name: ")
+        self.lastNameLabel.pack(side = tk.LEFT)
+        self.lastNameEntry = tk.Entry(self.frame)
+        self.lastNameEntry.pack(side = tk.LEFT)
+
+        self.ordersLabel = tk.Label(self.ordersFrame, text = "Orders (separate by NewLine):")
+        self.ordersLabel.pack(side = tk.LEFT)
+        self.ordersText = tk.Text(self.ordersFrame)
+        self.ordersText.pack(side = tk.LEFT)
+        
+        self.submitButton = tk.Button(self.ordersFrame, text = "Submit", bg = "grey", command = self.SubmitUserDetails)
+        self.submitButton.pack(side = tk.RIGHT, fill = tk.BOTH)
+
+    def SubmitUserDetails(self):
+
+
+        try:
+            newFName = self.firstNameEntry.get()
+        except ValueError:
+            messagebox.showerror("Value error", "First name not a string!")
+
+        try:
+            newLName = self.lastNameEntry.get()
+        except ValueError:
+            messagebox.showerror("Value error", "Last name not a string!")
+
+        try:
+            orderData = self.ordersText.get("1.0",'end-1c')
+            newOrders = orderData.splitlines()
+            
+        except ValueError:
+            messagebox.showerror("Value error", "Order list not properly defined!")
+
+        newUser = User(newFName, newLName, newOrders)
+
+        self.userList.append(newUser)
+        self.listbox.insert(tk.END, str(newUser))
+        self.master.destroy()
+
+
+class UpdateUserWindow():
+
+    def __init__(self, master, userList, listbox):
+
+        master.title("RipOff™ Movie Store: Update User")
+        self.master = master
+
+        self.userList = userList
+        self.listbox = listbox
+
+        self.frame = tk.Frame(master, bd = 20)
+        self.frame.pack(side = tk.TOP)
+
+        self.ordersFrame = tk.Frame(master)
+        self.ordersFrame.pack(side = tk.BOTTOM)
+
+        self.helpLabel = tk.Label(self.frame, text = "LEAVE BLANK FOR UNCHANGED")
+        self.helpLabel.pack(side = tk.TOP)
+
+        self.chooseUserLabel = tk.Label(self.frame, text = "Choose user index")
+        self.chooseUserLabel.pack(side = tk.LEFT)
+        self.chooseUserEntry = tk.Entry(self.frame)
+        self.chooseUserEntry.pack(side = tk.LEFT)
+
+        self.firstNameLabel = tk.Label(self.frame, text = "First name: ")
+        self.firstNameLabel.pack(side = tk.LEFT)
+        self.firstNameEntry = tk.Entry(self.frame)
+        self.firstNameEntry.pack(side = tk.LEFT)
+
+        self.lastNameLabel = tk.Label(self.frame, text = "Last name: ")
+        self.lastNameLabel.pack(side = tk.LEFT)
+        self.lastNameEntry = tk.Entry(self.frame)
+        self.lastNameEntry.pack(side = tk.LEFT)
+
+        self.ordersLabel = tk.Label(self.ordersFrame, text = "Orders (separate by NewLine):")
+        self.ordersLabel.pack(side = tk.LEFT)
+        self.ordersText = tk.Text(self.ordersFrame)
+        self.ordersText.pack(side = tk.LEFT)
+        
+        self.submitButton = tk.Button(self.ordersFrame, text = "Submit", bg = "grey", command = self.SubmitUserDetails)
+        self.submitButton.pack(side = tk.RIGHT, fill = tk.BOTH)
+
+    def SubmitUserDetails(self):
+
+        try:
+            userId = int(self.chooseUserEntry.get())
+            if userId >= len(self.userList):
+                userId = len(self.userList) - 1
+            elif userId < 0:
+                userId = 0
+
+        except ValueError:
+            messagebox.showerror("Value error", "ID not an integer!")
+            self.master.destroy()
+            return
+
+
+        try:
+            newFName = self.firstNameEntry.get()
+            if newFName in ['', None]:
+                newFName = self.userList[userId].firstName
+
+        except ValueError:
+            messagebox.showerror("Value error", "First name not a string!")
+            newFName = self.userList[userId].firstName
+
+
+        try:
+            newLName = self.lastNameEntry.get()
+            if newLName in ['', None]:
+                newLName = self.userList[userId].lastName
+
+        except ValueError:
+            messagebox.showerror("Value error", "Last name not a string!")
+            newLName = self.userList[userId].lastName
+
+
+        try:
+            orderData = self.ordersText.get("1.0",'end-1c')
+            newOrders = orderData.splitlines()
+            if newOrders in ['', None]:
+                newOrders = self.userList[userId].orders
+            
+        except ValueError:
+            messagebox.showerror("Value error", "Order list not properly defined!")
+            newOrders = self.userList[userId].orders
+
+        newUser = User(newFName, newLName, newOrders)
+
+        
+        self.userList[userId] = newUser
+        self.listbox.delete(userId)
+        self.listbox.insert(userId, str(self.userList[userId]))
+
+
+        self.master.destroy()
+
+class RemoveUserWindow():
+
+    def __init__(self, master, userList, listbox):
+
+        self.listbox = listbox
+        self.master = master
+        self.userList = userList
+
+        self.frame = tk.Frame(master, bd = 20)
+        self.frame.pack(side = tk.TOP)
+
+        self.removeLabel = tk.Label(self.frame, text = "User Index:")
+        self.removeLabel.pack(side = tk.LEFT)
+        self.removeEntry = tk.Entry(self.frame)
+        self.removeEntry.pack(side = tk.LEFT)
+        
+        self.submitButton = tk.Button(self.frame, text = "Submit", bg = "grey", command = self.SubmitUser)
+        self.submitButton.pack(side = tk.RIGHT, fill = tk.BOTH)
+
+    def SubmitUser(self):
+
+        try:
+
+            indexToRemove = int(self.removeEntry.get())
+        except ValueError:
+            messagebox.showerror("Value error", "Index is not an integer!")
+            self.master.destroy()
+            return
+
+        del self.userList[indexToRemove]
+        self.listbox.delete(indexToRemove)
+        self.master.destroy()
+
+
+            

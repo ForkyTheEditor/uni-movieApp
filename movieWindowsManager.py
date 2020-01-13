@@ -11,10 +11,22 @@ class MovieWindow():
         master.title("RipOff™ Movie Store: Movies")
         master.geometry("450x450")
 
+        self.master = master
+
         self.movieList = movieList
 
         self.frame = tk.Frame(master, bd = 20)
         self.frame.pack(side = tk.TOP, fill = tk.BOTH)
+
+        self.menu = tk.Menu(self.master)
+        self.master.config(menu = self.menu)
+
+        self.fileMenu = tk.Menu(self.menu)
+        self.fileMenu.add_command(label = "Help", command = self.Help)
+        self.fileMenu.add_command(label="Exit", command=self.Exit)
+        self.menu.add_cascade(label="File", menu=self.fileMenu)
+
+
 
         self.scrollY = tk.Scrollbar(self.frame, orient=tk.VERTICAL) 
         self.scrollX = tk.Scrollbar(self.frame, orient = tk.HORIZONTAL)
@@ -52,7 +64,13 @@ class MovieWindow():
         top = tk.Toplevel()
         updateWindow = UpdateMovieWindow(top, self.movieList, self.list)        
         
+    def Help(self):
 
+        messagebox.showerror("Help", "Version: 1.0.1a")
+
+    def Exit(self):
+
+        self.master.destroy()
         
 
     

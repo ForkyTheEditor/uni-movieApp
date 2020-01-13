@@ -32,13 +32,13 @@ class MiscWindow():
         self.buttonFrame = tk.Frame(master, bd = 20)
         self.buttonFrame.pack(side = tk.TOP)
 
-        self.orderMovieButton = tk.Button(self.buttonFrame, text = "Order Movie", command = self.openOrderMovieWindow)
+        self.orderMovieButton = tk.Button(self.buttonFrame, text = "Order Movie", bg = "grey",command = self.openOrderMovieWindow)
         self.orderMovieButton.pack(side = tk.TOP, fill = tk.X)
 
-        self.searchMovieButton = tk.Button(self.buttonFrame, text = "Search Movie by rating", command = self.openSearchRatingWindow)
+        self.searchMovieButton = tk.Button(self.buttonFrame, text = "Search Movie by rating",bg = "grey", command = self.openSearchRatingWindow)
         self.searchMovieButton.pack(side = tk.TOP, fill = tk.X)
 
-        self.filterMoviesButton = tk.Button(self.buttonFrame, text = "Filter Movies by actor", command = self.openSearchActorWindow)
+        self.filterMoviesButton = tk.Button(self.buttonFrame, text = "Filter Movies by actor",bg = "grey", command = self.openSearchActorWindow)
         self.filterMoviesButton.pack(side = tk.TOP, fill = tk.X)
 
 

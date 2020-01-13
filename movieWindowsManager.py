@@ -42,10 +42,10 @@ class MovieWindow():
         self.buttonFrame = tk.Frame(master, bd = 20)
         self.buttonFrame.pack(side = tk.TOP)
 
-        self.addMovieButton = tk.Button(self.buttonFrame, text = "Add Movie", command = self.openAddMovieWindow)
+        self.addMovieButton = tk.Button(self.buttonFrame, text = "Add Movie", bg = "grey", command = self.openAddMovieWindow)
         self.addMovieButton.pack(side = tk.TOP, fill = tk.X)
 
-        self.updateMovieButton = tk.Button(self.buttonFrame, text = "Update Movie", command = self.openUpdateMovieWindow)
+        self.updateMovieButton = tk.Button(self.buttonFrame, text = "Update Movie", bg = "grey", command = self.openUpdateMovieWindow)
         self.updateMovieButton.pack(side = tk.TOP, fill = tk.X)
 
     

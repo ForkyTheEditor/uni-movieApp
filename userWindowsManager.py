@@ -31,13 +31,13 @@ class UserWindow():
         self.buttonFrame = tk.Frame(master, bd = 20)
         self.buttonFrame.pack(side = tk.TOP)
 
-        self.addUserButton = tk.Button(self.buttonFrame, text = "Add User", command = self.openAddUserWindow)
+        self.addUserButton = tk.Button(self.buttonFrame, text = "Add User", bg = "grey",command = self.openAddUserWindow)
         self.addUserButton.pack(side = tk.TOP, fill = tk.X)
 
-        self.updateUserButton = tk.Button(self.buttonFrame, text = "Update User", command = self.openUpdateUserWindow)
+        self.updateUserButton = tk.Button(self.buttonFrame, text = "Update User",bg = "grey", command = self.openUpdateUserWindow)
         self.updateUserButton.pack(side = tk.TOP, fill = tk.X)
 
-        self.removeUserButton = tk.Button(self.buttonFrame, text = "Remove User", command = self.openRemoveUserWindow)
+        self.removeUserButton = tk.Button(self.buttonFrame, text = "Remove User",bg = "grey", command = self.openRemoveUserWindow)
         self.removeUserButton.pack(side = tk.TOP, fill = tk.X)
 
         
@@ -251,6 +251,12 @@ class RemoveUserWindow():
             indexToRemove = int(self.removeEntry.get())
         except ValueError:
             messagebox.showerror("Value error", "Index is not an integer!")
+            self.master.destroy()
+            return
+
+        if 0 <= indexToRemove and indexToRemove < len(self.userList):
+
+            messagebox.showerror("Value error", "Index out of range!")
             self.master.destroy()
             return
 
